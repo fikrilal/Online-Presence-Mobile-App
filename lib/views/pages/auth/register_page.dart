@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:presensi_mobile_app/views/pages/auth/login_page.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 import '../../../repository/api/api_register.dart';
 import '../../../repository/library/library_colors.dart';
 import '../../component/button/component_button.dart';
 import '../../component/text/component_text.dart';
 import '../../component/textfield/textfield_emailPass.dart';
+import '../dashboard/home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -31,13 +33,16 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    // Panggil metode registrasi di sini atau dalam respons terhadap peristiwa tertentu
-    registerUser();
   }
 
   void registerUser() async {
     try {
-      await registrationService.registerUser(
+      // Set isLoading menjadi true saat proses registrasi dimulai
+      setState(() {
+        isLoading = true;
+      });
+      await Future.delayed(Duration(seconds: 5));
+      var response = await registrationService.registerUser(
         nim: _controllerNIM.text,
         nama: _controllerNama.text,
         email: _controllerEmail.text,
@@ -46,8 +51,25 @@ class _RegisterPageState extends State<RegisterPage> {
         alamat: _controllerAlamat.text,
         password: _controllerPassword.text,
       );
+      if (response.statusCode == 200) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userNIM', _controllerNIM.text);
+        await prefs.setString('userName', _controllerNama.text);
+        await prefs.setString('userEmail', _controllerEmail.text);
+        await prefs.setString('userPassword', _controllerPassword.text);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
     } catch (error) {
       print("Error during registration: $error");
+    } finally {
+      // Set isLoading menjadi false setelah proses registrasi selesai
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -57,6 +79,9 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: Column(
           children: [
+            isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : const SizedBox(),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 16.w),
@@ -143,15 +168,18 @@ class _RegisterPageState extends State<RegisterPage> {
                           isPasswordType: true,
                         ),
                         SizedBox(height: 20.h),
-                        primaryButton(text: "Daftar", onPressed: () async {
-                          registerUser();
-                        }),
+                        primaryButton(
+                            text: "Daftar",
+                            onPressed: () async {
+                              registerUser();
+                            }),
                         SizedBox(height: 60.h),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const LoginPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
                             );
                           },
                           child: SizedBox(
@@ -171,7 +199,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-
           ],
         ),
       ),
