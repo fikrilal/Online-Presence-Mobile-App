@@ -5,6 +5,8 @@ import 'package:presensi_mobile_app/views/pages/auth/register_page.dart';
 import 'package:presensi_mobile_app/views/pages/dashboard/home_page.dart';
 import 'package:presensi_mobile_app/views/pages/presensi/presensi_page.dart';
 import 'package:presensi_mobile_app/views/pages/presensi/presensi_riwayat_page.dart';
+import 'package:presensi_mobile_app/views/pages/profile/edit_profile_page.dart';
+import 'package:presensi_mobile_app/views/pages/profile/profile_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: RiwayatPresensiPage(),
+        home: EditProfilePage(),
       ),
     );
   }

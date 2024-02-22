@@ -82,6 +82,27 @@ class Desc16w500 extends StatelessWidget {
   }
 }
 
+class Desc15w500 extends StatelessWidget {
+  final String? text;
+
+  Desc15w500(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "$text",
+      style: TextStyle(
+        fontFamily: 'Satoshi',
+        fontSize: 14.sp,
+        color: ListColor.gray600,
+        fontWeight: FontWeight.w500,
+        overflow: TextOverflow.ellipsis,
+      ),
+      maxLines: 2,
+    );
+  }
+}
+
 class Desc18w700Bold extends StatelessWidget {
   final String? text;
 
