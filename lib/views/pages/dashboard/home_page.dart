@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   String? userNIM;
   String? userName;
   String? userEmail;
+  int? userId;
   String? userLocation;
   LatLng? userPosition;
 
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage> {
       if (response.statusCode == 200) {
         final userData = json.decode(response.body);
         setState(() {
+          userId = int.tryParse(userData['user_id'].toString()) ?? 0;
           userName = userData['nama'];
           userEmail = userData['email'];
         });
@@ -126,8 +128,8 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Title20Bold("Selamat pagi"),
-                      Desc16w500("Lorem ipsum")
+                      Title20Bold(userName),
+                      Desc16w500("Selamat datang, $userId"),
                     ],
                   )
                 ],
@@ -192,7 +194,11 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const PresensiPage()),
+                      builder: (context) => PresensiPage(
+                        id: userId ?? 0,
+                        nama: userName ?? "Nama tidak ditemukan",
+                        lokasi: userLocation ?? "Lokasi tidak ditemukan",
+                      )),
                 );
               }),
             ),
