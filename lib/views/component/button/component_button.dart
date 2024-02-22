@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:presensi_mobile_app/repository/library/library_colors.dart';
 
 Widget primaryButton({
   required String text,
@@ -8,7 +9,7 @@ Widget primaryButton({
   return ElevatedButton(
     onPressed: onPressed,
     style: ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xFF419681),
+      backgroundColor: ListColor.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),

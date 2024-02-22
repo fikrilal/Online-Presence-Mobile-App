@@ -23,6 +23,9 @@ if (flutterVersionName == null) {
 }
 
 android {
+    defaultConfig {
+        minSdkVersion 20
+    }
     namespace "com.example.presensi_mobile_app"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion

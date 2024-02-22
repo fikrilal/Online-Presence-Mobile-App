@@ -23,6 +23,25 @@ class Title30Bold extends StatelessWidget {
   }
 }
 
+class Title20Bold extends StatelessWidget {
+  final String? text;
+
+  Title20Bold(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "$text",
+      style: const TextStyle(
+        fontFamily: 'Satoshi',
+        fontSize: 20,
+        color: ListColor.gray700,
+        fontWeight: FontWeight.w700,
+      ),
+    );
+  }
+}
+
 class Desc18w500 extends StatelessWidget {
   final String? text;
 
@@ -38,6 +57,27 @@ class Desc18w500 extends StatelessWidget {
         color: ListColor.gray500,
         fontWeight: FontWeight.w500,
       ),
+    );
+  }
+}
+
+class Desc16w500 extends StatelessWidget {
+  final String? text;
+
+  Desc16w500(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "$text",
+      style: TextStyle(
+        fontFamily: 'Satoshi',
+        fontSize: 16.sp,
+        color: ListColor.gray500,
+        fontWeight: FontWeight.w500,
+        overflow: TextOverflow.ellipsis,
+      ),
+      maxLines: 2,
     );
   }
 }

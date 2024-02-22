@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:presensi_mobile_app/views/pages/auth/login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:presensi_mobile_app/views/pages/auth/register_page.dart';
+import 'package:presensi_mobile_app/views/pages/dashboard/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: LoginPage(),
+        home: HomePage(),
       ),
     );
   }

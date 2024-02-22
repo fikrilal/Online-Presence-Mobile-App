@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:presensi_mobile_app/views/pages/auth/register_page.dart';
 import 'package:presensi_mobile_app/views/pages/dashboard/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../repository/api/api_signin.dart';
 import '../../../repository/library/library_colors.dart';
@@ -31,6 +32,9 @@ class _LoginPageState extends State<LoginPage> {
     final loginSuccess = await _authService.loginUser(nim, password);
 
     if (loginSuccess) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userNIM', _controllerNIM.text);
+      await prefs.setString('userPassword', _controllerPassword.text);
       CustomSnackbar.showSuccessSnackbar(context, "Berhasil login");
       Navigator.push(
         context,
@@ -51,7 +55,6 @@ class _LoginPageState extends State<LoginPage> {
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 16.w),
-                // Tambahkan padding ke bawah
                 child: Container(
                   padding: EdgeInsets.all(16.w),
                   child: Form(
