@@ -5,4 +5,5 @@ class ApiConfig {
   static const String getUserUrl = baseUrl + 'getuser.php';
   static const String presensiUrl = baseUrl + 'addpresensi.php';
   static const String riwayatUrl = baseUrl + 'getriyawatpresensi.php';
+  static const String updateUrl = baseUrl + 'updateprofile.php';
 }
