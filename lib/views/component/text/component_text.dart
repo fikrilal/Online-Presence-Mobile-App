@@ -82,6 +82,25 @@ class Desc16w500 extends StatelessWidget {
   }
 }
 
+class Desc18w700Bold extends StatelessWidget {
+  final String? text;
+
+  Desc18w700Bold(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "$text",
+      style: TextStyle(
+        fontFamily: 'Satoshi',
+        fontSize: 18.sp,
+        color: ListColor.gray700,
+        fontWeight: FontWeight.w700,
+      ),
+    );
+  }
+}
+
 class Desc18w700 extends StatelessWidget {
   final String? text;
 
@@ -117,6 +136,28 @@ class Desc16White extends StatelessWidget {
           fontWeight: FontWeight.w500,
           height: 0,
           overflow: TextOverflow.ellipsis,
+      ),
+      maxLines: 2,
+    );
+  }
+}
+
+class Desc14White extends StatelessWidget {
+  final String? text;
+
+  Desc14White(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "$text",
+      style: TextStyle(
+        fontFamily: 'Satoshi',
+        fontSize: 14.sp,
+        color: Colors.white,
+        fontWeight: FontWeight.w700,
+        height: 0,
+        overflow: TextOverflow.ellipsis,
       ),
       maxLines: 2,
     );
