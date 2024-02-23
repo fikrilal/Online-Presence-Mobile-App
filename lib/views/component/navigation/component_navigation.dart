@@ -54,6 +54,7 @@ class _MainWrapperState extends State<MainWrapper> {
               children: [
                 _bottomAppBarItem(Hicons.home_3_light_outline, Hicons.home_3_bold, 'Home', 0),
                 _bottomAppBarItem(Hicons.category_light_outline, Hicons.category_bold, 'Proyek', 1),
+                _bottomAppBarItem(Hicons.category_light_outline, Hicons.category_bold, 'Proyek', 2),
               ],
             ),
           ),

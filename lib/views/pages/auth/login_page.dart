@@ -33,14 +33,11 @@ class _LoginPageState extends State<LoginPage> {
 
     if (loginSuccess) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
       await prefs.setString('userNIM', _controllerNIM.text);
       await prefs.setString('userPassword', _controllerPassword.text);
       CustomSnackbar.showSuccessSnackbar(context, "Berhasil login");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const HomePage()),
-      );
+      context.go("/HomePage");
     } else {
       CustomSnackbar.showFailedSnackbar(context, "NIM atau Password salah");
     }
