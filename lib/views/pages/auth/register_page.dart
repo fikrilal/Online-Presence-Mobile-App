@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:presensi_mobile_app/views/pages/auth/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -52,16 +53,11 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _controllerPassword.text,
       );
       if (response.statusCode == 200) {
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // await prefs.setString('userNIM', _controllerNIM.text);
-        // await prefs.setString('userName', _controllerNama.text);
-        // await prefs.setString('userEmail', _controllerEmail.text);
-        // await prefs.setString('userPassword', _controllerPassword.text);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+        await prefs.setString('userNIM', _controllerNIM.text);
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        context.go("/HomePage");
       }
     } catch (error) {
       print("Error during registration: $error");

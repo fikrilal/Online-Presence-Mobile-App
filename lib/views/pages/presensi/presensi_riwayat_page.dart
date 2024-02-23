@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _RiwayatPresensiPageState extends State<RiwayatPresensiPage> {
   void initState() {
     super.initState();
     _loadUserInfo();
+    Timer.periodic(Duration(seconds: 1), (Timer t) => fetchAbsensi());
   }
 
   Future<void> _loadUserInfo() async {
@@ -74,7 +76,21 @@ class _RiwayatPresensiPageState extends State<RiwayatPresensiPage> {
       appBar: CustomAppBar(
         title: "Riwayat Presensi",
       ),
-      body: SingleChildScrollView(
+      body: listAbsensi.isEmpty
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset("assets/images/no_data.svg", width: 150.w), // Pastikan Anda memiliki gambar/svg yang sesuai
+            SizedBox(height: 20.h),
+            Text(
+              "Tidak ada data riwayat presensi",
+              style: TextStyle(fontSize: 18.sp, color: Colors.black54),
+            ),
+          ],
+        ),
+      )
+          : SingleChildScrollView(
         child: Column(
           children: listAbsensi.map((absensi) {
             return Padding(
@@ -132,7 +148,7 @@ class _RiwayatPresensiPageState extends State<RiwayatPresensiPage> {
           }).toList(),
         ),
       ),
-
     );
   }
+
 }

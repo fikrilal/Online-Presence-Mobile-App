@@ -122,6 +122,25 @@ class Desc18w700Bold extends StatelessWidget {
   }
 }
 
+class Desc18w700BoldRed extends StatelessWidget {
+  final String? text;
+
+  Desc18w700BoldRed(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "$text",
+      style: TextStyle(
+        fontFamily: 'Satoshi',
+        fontSize: 18.sp,
+        color: ListColor.red,
+        fontWeight: FontWeight.w700,
+      ),
+    );
+  }
+}
+
 class Desc18w700 extends StatelessWidget {
   final String? text;
 

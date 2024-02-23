@@ -53,8 +53,8 @@ class _MainWrapperState extends State<MainWrapper> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _bottomAppBarItem(Hicons.home_3_light_outline, Hicons.home_3_bold, 'Home', 0),
-                _bottomAppBarItem(Hicons.category_light_outline, Hicons.category_bold, 'Proyek', 1),
-                _bottomAppBarItem(Hicons.category_light_outline, Hicons.category_bold, 'Proyek', 2),
+                _bottomAppBarItem(Hicons.document_align_left_1_light_outline, Hicons.document_align_left_1_bold, 'Riwayat', 1),
+                _bottomAppBarItem(Hicons.profile_1_light_outline, Hicons.profile_1_bold, 'Profile', 2),
               ],
             ),
           ),

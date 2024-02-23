@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   String? userTelp;
   String? userTanggalLahir;
   String? userAlamat;
+  // String? userPassword;
   int? userId;
 
   @override
@@ -58,6 +60,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           userTelp = userData['telp'];
           userTanggalLahir = userData['tanggal_lahir'];
           userAlamat = userData['alamat'];
+          // userPassword = userData['password'];
 
           // Set values for the TextEditingControllers
           _controllerNama.text = userName ?? '';
@@ -65,6 +68,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           _controllerTelp.text = userTelp ?? '';
           _controllerTanggalLahir.text = userTanggalLahir ?? '';
           _controllerAlamat.text = userAlamat ?? '';
+          // _controllerPassword.text = userPassword ?? '';
         });
       } else {
         print('Gagal mengambil data pengguna');
@@ -137,6 +141,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 iconColor: ListColor.gray500,
                 isPasswordType: false,
               ),
+              // SizedBox(height: 10.h),
+              // Desc18w700("Password"),
+              // SizedBox(height: 5.h),
+              // EmailPassField(
+              //   text: "****",
+              //   svgIconPath: "assets/icons/icons_password.svg",
+              //   controller: _controllerPassword,
+              //   iconColor: ListColor.gray500,
+              //   isPasswordType: true,
+              // ),
               SizedBox(height: 32.h),
               primaryButton(
                   text: "Simpan",
@@ -149,7 +163,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       telp: _controllerTelp.text,
                       tanggalLahir: _controllerTanggalLahir.text,
                       alamat: _controllerAlamat.text,
-                      password: _controllerPassword.text, // Hanya sertakan jika password diubah
+                      // password: _controllerPassword.text,
                     );
                     if (success) {
                       ScaffoldMessenger.of(context).showSnackBar(

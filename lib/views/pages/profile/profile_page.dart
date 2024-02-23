@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:presensi_mobile_app/views/component/text/component_text.dart';
+import 'package:presensi_mobile_app/views/pages/profile/edit_profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _loadUserInfo();
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _loadUserInfo());
   }
 
   Future<void> _loadUserInfo() async {
@@ -81,7 +85,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       Title20Bold(userName),
                       ElevatedButton(
                         onPressed: () {
-                          // Tindakan yang diambil saat tombol ditekan
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const EditProfilePage()),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.white,
@@ -96,7 +103,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child: Desc15w500("Edit Profile"),
                       )
-
                     ],
                   ),
                 ],
@@ -171,6 +177,28 @@ class _ProfilePageState extends State<ProfilePage> {
                       SizedBox(height: 4.h),
                       const Divider(
                         color: ListColor.gray200,
+                      ),
+                      SizedBox(height: 24.h),
+                      ElevatedButton(
+                        onPressed: () async {
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          await prefs.setBool('isLoggedIn', false);
+                          context.go("/LoginPage");
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 0),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          backgroundColor: Colors.red.withOpacity(0.1),
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            side: const BorderSide(
+                              color: ListColor.red,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                        child: Desc18w700BoldRed("Logout"),
                       )
                     ],
                   ),

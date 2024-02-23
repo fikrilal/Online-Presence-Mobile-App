@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Title20Bold(userName),
-                      Desc16w500("Selamat datang, $userId"),
+                      Desc16w500("Selamat datang👋"),
                     ],
                   )
                 ],
