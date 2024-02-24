@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../../repository/api/api_config.dart';
@@ -10,6 +12,7 @@ import '../../../repository/api/api_updateProfile.dart';
 import '../../../repository/library/library_colors.dart';
 import '../../component/appbar/component_appbar.dart';
 import '../../component/button/component_button.dart';
+import '../../component/snackbar/component_snackbar.dart';
 import '../../component/text/component_text.dart';
 import '../../component/textfield/textfield_emailPass.dart';
 
@@ -34,8 +37,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   String? userTelp;
   String? userTanggalLahir;
   String? userAlamat;
-  // String? userPassword;
+  String? userPassword;
   int? userId;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -60,7 +64,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           userTelp = userData['telp'];
           userTanggalLahir = userData['tanggal_lahir'];
           userAlamat = userData['alamat'];
-          // userPassword = userData['password'];
+          userPassword = userData['password'];
 
           // Set values for the TextEditingControllers
           _controllerNama.text = userName ?? '';
@@ -68,11 +72,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
           _controllerTelp.text = userTelp ?? '';
           _controllerTanggalLahir.text = userTanggalLahir ?? '';
           _controllerAlamat.text = userAlamat ?? '';
-          // _controllerPassword.text = userPassword ?? '';
+          _controllerPassword.text = userPassword ?? '';
         });
       } else {
         print('Gagal mengambil data pengguna');
       }
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        _controllerTanggalLahir.text = DateFormat('yyyy-MM-dd').format(picked); // Mengatur format tanggal
+      });
     }
   }
 
@@ -124,12 +143,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(height: 10.h),
               Desc18w700("Tanggal Lahir"),
               SizedBox(height: 5.h),
-              EmailPassField(
-                text: "Contoh: 2002-08-28",
-                svgIconPath: "assets/icons/icons_date.svg",
-                controller: _controllerTanggalLahir,
-                iconColor: ListColor.gray500,
-                isPasswordType: false,
+              Row(
+                children: [
+                  Expanded(
+                    child: EmailPassField(
+                      text: "Contoh: 2002-08-28",
+                      svgIconPath: "assets/icons/icons_date.svg",
+                      controller: _controllerTanggalLahir,
+                      iconColor: ListColor.gray500,
+                      isPasswordType: false,
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  GestureDetector(
+                    child: Container(
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: ListColor.gray200),
+                      ),
+                      child: SvgPicture.asset(
+                        'assets/icons/icons_bold_calendar.svg',
+                        color: ListColor.primary,
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    onTap: () => _selectDate(context),
+                  )
+                ],
               ),
               SizedBox(height: 10.h),
               Desc18w700("Alamat"),
@@ -141,16 +184,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 iconColor: ListColor.gray500,
                 isPasswordType: false,
               ),
-              // SizedBox(height: 10.h),
-              // Desc18w700("Password"),
-              // SizedBox(height: 5.h),
-              // EmailPassField(
-              //   text: "****",
-              //   svgIconPath: "assets/icons/icons_password.svg",
-              //   controller: _controllerPassword,
-              //   iconColor: ListColor.gray500,
-              //   isPasswordType: true,
-              // ),
+              SizedBox(height: 10.h),
+              Desc18w700("Password"),
+              SizedBox(height: 5.h),
+              EmailPassField(
+                text: "Biarkan kosong jika tetap",
+                svgIconPath: "assets/icons/icons_password.svg",
+                controller: _controllerPassword,
+                iconColor: ListColor.gray500,
+                isPasswordType: true,
+              ),
               SizedBox(height: 32.h),
               primaryButton(
                   text: "Simpan",
@@ -163,17 +206,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       telp: _controllerTelp.text,
                       tanggalLahir: _controllerTanggalLahir.text,
                       alamat: _controllerAlamat.text,
-                      // password: _controllerPassword.text,
+                      password: _controllerPassword.text,
                     );
                     if (success) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Profil berhasil diperbarui')),
-                      );
+                      CustomSnackbar.showSuccessSnackbar(context, "Profil berhasil diperbarui");
                       Navigator.of(context).pop();
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Gagal memperbarui profil')),
-                      );
+                      CustomSnackbar.showFailedSnackbar(context, "Gagal memperbarui profil");
                     }
                   }),
             ],

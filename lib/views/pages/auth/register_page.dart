@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:presensi_mobile_app/views/pages/auth/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import '../../../repository/api/api_register.dart';
 import '../../../repository/library/library_colors.dart';
 import '../../component/button/component_button.dart';
+import '../../component/snackbar/component_snackbar.dart';
 import '../../component/text/component_text.dart';
 import '../../component/textfield/textfield_emailPass.dart';
 import '../dashboard/home_page.dart';
@@ -28,7 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _controllerPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
-
+  DateTime selectedDate = DateTime.now();
   var registrationService = RegistrationService();
 
   @override
@@ -42,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         isLoading = true;
       });
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(Duration(seconds: 3));
       var response = await registrationService.registerUser(
         nim: _controllerNIM.text,
         nama: _controllerNama.text,
@@ -53,18 +56,36 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _controllerPassword.text,
       );
       if (response.statusCode == 200) {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('isLoggedIn', true);
-        await prefs.setString('userNIM', _controllerNIM.text);
-
-        context.go("/HomePage");
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // await prefs.setBool('isLoggedIn', true);
+        // await prefs.setString('userNIM', _controllerNIM.text);
+        CustomSnackbar.showSuccessSnackbar(context, "Berhasil melakukan registrasi! Silahkan login");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
       }
     } catch (error) {
-      print("Error during registration: $error");
+      CustomSnackbar.showFailedSnackbar(context, "Gagal melakukan registrasi");
     } finally {
       // Set isLoading menjadi false setelah proses registrasi selesai
       setState(() {
         isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        _controllerTanggalLahir.text = DateFormat('yyyy-MM-dd').format(picked); // Mengatur format tanggal
       });
     }
   }
@@ -136,12 +157,36 @@ class _RegisterPageState extends State<RegisterPage> {
                         SizedBox(height: 10.h),
                         Desc18w700("Tanggal Lahir"),
                         SizedBox(height: 5.h),
-                        EmailPassField(
-                          text: "Contoh: 2002-08-28",
-                          svgIconPath: "assets/icons/icons_date.svg",
-                          controller: _controllerTanggalLahir,
-                          iconColor: ListColor.gray500,
-                          isPasswordType: false,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: EmailPassField(
+                                text: "Contoh: 2002-08-28",
+                                svgIconPath: "assets/icons/icons_date.svg",
+                                controller: _controllerTanggalLahir,
+                                iconColor: ListColor.gray500,
+                                isPasswordType: false,
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            GestureDetector(
+                              child: Container(
+                                padding: const EdgeInsets.all(18),
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: ListColor.gray200),
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/icons/icons_bold_calendar.svg',
+                                  color: ListColor.primary,
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                              onTap: () => _selectDate(context),
+                            )
+                          ],
                         ),
                         SizedBox(height: 10.h),
                         Desc18w700("Alamat"),
