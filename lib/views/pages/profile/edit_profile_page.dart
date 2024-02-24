@@ -47,6 +47,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _loadUserInfo();
   }
 
+  // Ngambil data user
   Future<void> _loadUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     userNIM = prefs.getString('userNIM');
@@ -66,7 +67,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           userAlamat = userData['alamat'];
           userPassword = userData['password'];
 
-          // Set values for the TextEditingControllers
+          // Set textfield dari data database
           _controllerNama.text = userName ?? '';
           _controllerEmail.text = userEmail ?? '';
           _controllerTelp.text = userTelp ?? '';
@@ -80,6 +81,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  // Tanggal lahir pake kalender
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -195,6 +197,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 isPasswordType: true,
               ),
               SizedBox(height: 32.h),
+              // Fungsi untuk menyimpan data updatan ke database
               primaryButton(
                   text: "Simpan",
                   onPressed: () async {

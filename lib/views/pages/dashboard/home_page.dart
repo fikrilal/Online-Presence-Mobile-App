@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     _getCurrentLocation();
   }
 
+  // Ngambil data user dari database
   Future<void> _loadUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     userNIM = prefs.getString('userNIM');
@@ -57,6 +58,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Dapat lokasi terkini dari pengguna
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -68,6 +70,7 @@ class _HomePageState extends State<HomePage> {
       return Future.error('Layanan lokasi dinonaktifkan.');
     }
 
+    //minta akses ke gps
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -161,6 +164,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   SizedBox(height: 16.h),
+                  // Tampilan maps
                   SizedBox(
                     height: 300,
                     child: ClipRRect(

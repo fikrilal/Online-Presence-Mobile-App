@@ -43,6 +43,7 @@ class _PresensiPageState extends State<PresensiPage> {
     });
   }
 
+  //Ngirim data absensi ke database
   void submitAbsensi() async {
     if (dropdownValue == null) {
       ScaffoldMessenger.of(context).showSnackBar(

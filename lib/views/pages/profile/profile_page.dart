@@ -35,6 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Timer.periodic(Duration(seconds: 1), (Timer t) => _loadUserInfo());
   }
 
+  //Ngambil data user
   Future<void> _loadUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     userNIM = prefs.getString('userNIM');
@@ -179,6 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: ListColor.gray200,
                       ),
                       SizedBox(height: 24.h),
+                      //Tombol logout
                       ElevatedButton(
                         onPressed: () async {
                           SharedPreferences prefs = await SharedPreferences.getInstance();

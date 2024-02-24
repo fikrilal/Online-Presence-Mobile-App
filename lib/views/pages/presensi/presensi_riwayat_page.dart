@@ -36,6 +36,7 @@ class _RiwayatPresensiPageState extends State<RiwayatPresensiPage> {
     Timer.periodic(Duration(seconds: 1), (Timer t) => fetchAbsensi());
   }
 
+  // Mengambil data pengguna
   Future<void> _loadUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     userNIM = prefs.getString('userNIM');
@@ -56,6 +57,7 @@ class _RiwayatPresensiPageState extends State<RiwayatPresensiPage> {
     }
   }
 
+  // Mengambil riwayat absensi
   void fetchAbsensi() async {
     if (userId == null) {
       print('UserId tidak ditemukan');

@@ -39,6 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
   }
 
+  //Fungsi untuk menyimpan
   void registerUser() async {
     try {
       // Set isLoading menjadi true saat proses registrasi dimulai
@@ -56,9 +57,6 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _controllerPassword.text,
       );
       if (response.statusCode == 200) {
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // await prefs.setBool('isLoggedIn', true);
-        // await prefs.setString('userNIM', _controllerNIM.text);
         CustomSnackbar.showSuccessSnackbar(context, "Berhasil melakukan registrasi! Silahkan login");
         Navigator.push(
           context,
@@ -75,6 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  //Funsi untuk mendapat tanggal lahir dari kalender
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
+  // fungsi untuk login
   void _attemptLogin() async {
     final nim = _controllerNIM.text;
     final password = _controllerPassword.text;
